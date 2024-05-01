@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Student } from '../interfaces/student.interface';
@@ -41,29 +41,47 @@ export class StudentsService {
   }
 
   async findOne(studentId: string): Promise<Student | null> {
-    return this.studentModel.findOne({ studentId, isDeleted: false }).exec();
+    const student = await this.studentModel
+      .findOne({ studentId, isDeleted: false })
+      .exec();
+    if (!student) {
+      throw new NotFoundException(`Student with ID ${studentId} not found`);
+    }
+    return student;
   }
 
   async update(
     studentId: string,
     updateStudentDto: UpdateStudentDto,
-  ): Promise<Student | null> {
+  ): Promise<Student> {
     const updateData = { ...updateStudentDto, updatedAt: new Date() };
 
-    return this.studentModel
+    const updatedStudent = await this.studentModel
       .findOneAndUpdate({ studentId, isDeleted: false }, updateData, {
         new: true,
       })
       .exec();
+
+    if (!updatedStudent) {
+      throw new NotFoundException(`Student with ID ${studentId} not found`);
+    }
+
+    return updatedStudent;
   }
 
-  async delete(studentId: string): Promise<Student | null> {
+  async delete(studentId: string): Promise<Student> {
     const updateData = { isDeleted: true, isDeletedAt: new Date() };
 
-    return this.studentModel
+    const deletedStudent = await this.studentModel
       .findOneAndUpdate({ studentId, isDeleted: false }, updateData, {
         new: true,
       })
       .exec();
+
+    if (!deletedStudent) {
+      throw new NotFoundException(`Student with ID ${studentId} not found`);
+    }
+
+    return deletedStudent;
   }
 }
