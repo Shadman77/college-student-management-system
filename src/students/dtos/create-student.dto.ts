@@ -5,7 +5,10 @@ import {
   IsIn,
   IsOptional,
   IsDate,
+  Min,
+  Max,
 } from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export class CreateStudentDto {
   @IsNotEmpty()
@@ -18,6 +21,8 @@ export class CreateStudentDto {
 
   @IsNotEmpty()
   @IsInt()
+  @Min(16, { message: 'Age must be at least 16' })
+  @Max(22, { message: 'Age must be at most 22' })
   age: number;
 
   @IsNotEmpty()
@@ -35,5 +40,6 @@ export class CreateStudentDto {
 
   @IsNotEmpty()
   @IsDate()
+  @Transform(({ value }) => new Date(value))
   admissionDate: Date;
 }
