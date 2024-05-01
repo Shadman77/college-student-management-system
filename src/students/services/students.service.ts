@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { Student } from '../interfaces/student.interface';
 import { CreateStudentDto } from '../dtos/create-student.dto';
 import { UpdateStudentDto } from '../dtos/update-student.dto';
+import { apiConfig } from 'src/config';
 
 @Injectable()
 export class StudentsService {
@@ -17,7 +18,7 @@ export class StudentsService {
   }
 
   async findAll(paginationOptions): Promise<Student[]> {
-    const fixedLimit = 10;
+    const fixedLimit = apiConfig.elementsPerPage;
     const { page } = paginationOptions;
     const skip = (page - 1) * fixedLimit;
     return this.studentModel
