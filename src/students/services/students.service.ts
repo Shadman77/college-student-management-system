@@ -19,10 +19,20 @@ export class StudentsService {
     const createStudent = new this.studentModel(createStudentDto);
     const createdStudent = await createStudent.save();
     if (createdStudent) {
-      this.cacheManager.set('totalNumberOfStudents', 1);
+      this.cacheManager.set(
+        'totalNumberOfStudents',
+        (await this.getTotalNumberOfStudents()) + 1, //How is race condition handled?
+      );
     }
 
     return createStudent.save();
+  }
+
+  async getTotalNumberOfStudents(): Promise<number> {
+    return (
+      (await this.cacheManager.get('totalNumberOfStudents')) ||
+      (await this.studentModel.countDocuments({ isDeleted: false }).exec())
+    );
   }
 
   async getNumberOfPages(): Promise<number> {
@@ -88,6 +98,11 @@ export class StudentsService {
 
     if (!deletedStudent) {
       throw new NotFoundException(`Student with ID ${studentId} not found`);
+    } else {
+      this.cacheManager.set(
+        'totalNumberOfStudents',
+        (await this.getTotalNumberOfStudents()) - 1, //How is race condition handled?
+      );
     }
 
     return deletedStudent;
