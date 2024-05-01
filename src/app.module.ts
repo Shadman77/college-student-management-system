@@ -12,6 +12,7 @@ import { StudentsModule } from './students/students.module';
         uri: process.env.MONGO_URI,
       }),
     }),
+    StudentsModule
   ],
   controllers: [AppController],
   providers: [AppService],
