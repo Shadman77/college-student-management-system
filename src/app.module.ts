@@ -5,7 +5,7 @@ import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CacheModule } from '@nestjs/cache-manager';
 import { StudentsModule } from './students/students.module';
-import { mongoConfig } from './config';
+import { mongoConfig, redisCacheConfig } from './config';
 
 import * as redisStore from 'cache-manager-redis-store';
 
@@ -14,10 +14,10 @@ import * as redisStore from 'cache-manager-redis-store';
     CacheModule.register({
       isGlobal: true,
       store: redisStore,
-      host: 'localhost',
-      port: 6379,
-      ttl: 0,
-      db: 1
+      host: redisCacheConfig.host,
+      port: redisCacheConfig.port,
+      ttl: redisCacheConfig.ttl,
+      db: redisCacheConfig.db
     }),
     MongooseModule.forRoot(mongoConfig.uri, {
       user: mongoConfig.user,
