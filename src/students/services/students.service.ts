@@ -16,8 +16,15 @@ export class StudentsService {
     return createdStudent.save();
   }
 
-  async findAll(): Promise<Student[]> {
-    return this.studentModel.find().exec();
+  async findAll(paginationOptions): Promise<Student[]> {
+    const fixedLimit = 10;
+    const { page } = paginationOptions;
+    const skip = (page - 1) * fixedLimit;
+    return this.studentModel
+      .find({}, { _id: 0, studentId: 1, name: 1, admissionDate: 1 })
+      .skip(skip)
+      .limit(fixedLimit)
+      .exec();
   }
 
   async findOne(studentId: string): Promise<Student | null> {

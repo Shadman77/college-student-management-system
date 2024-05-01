@@ -6,6 +6,7 @@ import {
   Param,
   Put,
   Delete,
+  Query
 } from '@nestjs/common';
 import { StudentsService } from '../services/students.service';
 import { CreateStudentDto } from '../dtos/create-student.dto';
@@ -21,8 +22,12 @@ export class StudentsController {
   }
 
   @Get()
-  findAll() {
-    return this.studentsService.findAll();
+  async findAll(@Query('page') page: number = 1) {
+    const paginationOptions = {
+      page: page
+    };
+    const students = await this.studentsService.findAll(paginationOptions);
+    return students
   }
 
   @Get(':id')
