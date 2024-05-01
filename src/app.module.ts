@@ -4,15 +4,20 @@ import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { StudentsModule } from './students/students.module';
+import { mongoConfig } from './config';
+
+console.log(mongoConfig.uri);
 
 @Module({
   imports: [
-    MongooseModule.forRootAsync({
-      useFactory: () => ({
-        uri: process.env.MONGO_URI,
-      }),
+    MongooseModule.forRoot(mongoConfig.uri, {
+      user: mongoConfig.user,
+      pass: mongoConfig.pass,
+      dbName: mongoConfig.db_name,
+      w: 'majority',
+      retryWrites: true,
     }),
-    StudentsModule
+    StudentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
