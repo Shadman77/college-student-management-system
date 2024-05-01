@@ -7,7 +7,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { StudentsModule } from './students/students.module';
 import { mongoConfig } from './config';
 
-console.log(mongoConfig.uri);
 
 @Module({
   imports: [

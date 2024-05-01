@@ -17,10 +17,12 @@ export class StudentsService {
     return createdStudent.save();
   }
 
-  async getNumberOfPages(): Promise<Number> {
+  async getNumberOfPages(): Promise<number> {
     const elementsPerPage = apiConfig.elementsPerPage;
-    const totalNumberOfStudents = await this.studentModel.countDocuments().exec();
-    return Math.ceil(totalNumberOfStudents/elementsPerPage)
+    const totalNumberOfStudents = await this.studentModel
+      .countDocuments({ isDeleted: false })
+      .exec();
+    return Math.ceil(totalNumberOfStudents / elementsPerPage);
   }
 
   async findAll(paginationOptions): Promise<Student[]> {
@@ -28,7 +30,10 @@ export class StudentsService {
     const { page } = paginationOptions;
     const skip = (page - 1) * elementsPerPage;
     return this.studentModel
-      .find({}, { _id: 0, studentId: 1, name: 1, admissionDate: 1 })
+      .find(
+        { isDeleted: false },
+        { _id: 0, studentId: 1, name: 1, admissionDate: 1 },
+      )
       .sort({ _id: -1 })
       .skip(skip)
       .limit(elementsPerPage)
@@ -36,7 +41,7 @@ export class StudentsService {
   }
 
   async findOne(studentId: string): Promise<Student | null> {
-    return this.studentModel.findOne({ studentId }).exec();
+    return this.studentModel.findOne({ studentId, isDeleted: false }).exec();
   }
 
   async update(
@@ -46,14 +51,19 @@ export class StudentsService {
     const updateData = { ...updateStudentDto, updatedAt: new Date() };
 
     return this.studentModel
-      .findOneAndUpdate({ studentId }, updateData, { new: true })
+      .findOneAndUpdate({ studentId, isDeleted: false }, updateData, {
+        new: true,
+      })
       .exec();
   }
 
   async delete(studentId: string): Promise<Student | null> {
-    const deletedStudent = await this.studentModel
-      .findOneAndDelete({ studentId })
+    const updateData = { isDeleted: true, isDeletedAt: new Date() };
+
+    return this.studentModel
+      .findOneAndUpdate({ studentId, isDeleted: false }, updateData, {
+        new: true,
+      })
       .exec();
-    return deletedStudent;
   }
 }
