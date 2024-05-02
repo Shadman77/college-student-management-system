@@ -8,6 +8,7 @@ import { StudentsModule } from './students/students.module';
 import { mongoConfig, redisCacheConfig } from './config';
 import * as redisStore from 'cache-manager-redis-store';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -27,7 +28,8 @@ import { UsersModule } from './users/users.module';
       retryWrites: true,
     }),
     StudentsModule,
-    UsersModule
+    UsersModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [

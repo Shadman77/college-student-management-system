@@ -7,10 +7,13 @@ import {
   Put,
   Delete,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { StudentsService } from '../services/students.service';
 import { CreateStudentDto } from '../dtos/create-student.dto';
 import { UpdateStudentDto } from '../dtos/update-student.dto';
+import { LocalAuthGuard } from 'src/auth/guard/local.auth.guard';
+import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
 
 @Controller('students')
 export class StudentsController {
@@ -21,6 +24,7 @@ export class StudentsController {
     return this.studentsService.create(createStudentDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   async findAll(@Query('page') page: number = 1) {
     const paginationOptions = {
