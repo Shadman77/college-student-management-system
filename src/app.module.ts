@@ -16,7 +16,7 @@ import * as redisStore from 'cache-manager-redis-store';
       host: redisCacheConfig.host,
       port: redisCacheConfig.port,
       ttl: redisCacheConfig.ttl,
-      db: redisCacheConfig.db,
+      db: redisCacheConfig.cache_db,
     }),
     MongooseModule.forRoot(mongoConfig.uri, {
       user: mongoConfig.user,

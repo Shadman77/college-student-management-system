@@ -5,22 +5,23 @@ import { StudentsService } from './services/students.service';
 import { StudentSchema } from './schemas/student.schema';
 import { StudentUpdateProcessor } from './processors/student-update.processor';
 import { BullModule, BullModuleOptions } from '@nestjs/bull';
+import { redisCacheConfig } from 'src/config';
 
 @Module({
   imports: [
     BullModule.forRoot({
       redis: {
-        host: 'localhost',
-        port: 6379,
-        db: 0,
+        host: redisCacheConfig.host,
+        port: redisCacheConfig.port,
+        db: redisCacheConfig.queue_db,
       },
     }),
     BullModule.registerQueue({
       name: 'studentUpdate',
       redis: {
-        host: 'localhost',
-        port: 6379,
-        db: 0,
+        host: redisCacheConfig.host,
+        port: redisCacheConfig.port,
+        db: redisCacheConfig.queue_db,
       },
     }),
     MongooseModule.forFeature([{ name: 'Student', schema: StudentSchema }]),
