@@ -7,6 +7,7 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { StudentsModule } from './students/students.module';
 import { mongoConfig, redisCacheConfig } from './config';
 import * as redisStore from 'cache-manager-redis-store';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import * as redisStore from 'cache-manager-redis-store';
       retryWrites: true,
     }),
     StudentsModule,
+    UsersModule
   ],
   controllers: [AppController],
   providers: [
