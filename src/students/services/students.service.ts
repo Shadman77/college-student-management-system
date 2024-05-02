@@ -2,6 +2,8 @@ import { Injectable, NotFoundException, Inject } from '@nestjs/common';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { InjectModel } from '@nestjs/mongoose';
+import { InjectQueue } from '@nestjs/bull';
+import { Queue } from 'bull';
 import { Model } from 'mongoose';
 import { Student } from '../interfaces/student.interface';
 import { CreateStudentDto } from '../dtos/create-student.dto';
@@ -11,6 +13,7 @@ import { apiConfig } from 'src/config';
 @Injectable()
 export class StudentsService {
   constructor(
+    @InjectQueue('studentUpdate') private readonly studentUpdateQueue: Queue,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
     @InjectModel('Student') private readonly studentModel: Model<Student>,
   ) {}
@@ -83,6 +86,8 @@ export class StudentsService {
     if (!updatedStudent) {
       throw new NotFoundException(`Student with ID ${studentId} not found`);
     }
+
+    this.studentUpdateQueue.add('update', { studentId });
 
     return updatedStudent;
   }
