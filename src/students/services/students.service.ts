@@ -103,7 +103,7 @@ export class StudentsService {
       })
       .exec();
 
-    this.socketService.emitToAll('onMessage', 'Hobby Update!');
+    this.socketService.emitToAll('student-updated', updatedStudent);
     return updatedStudent;
   }
 
