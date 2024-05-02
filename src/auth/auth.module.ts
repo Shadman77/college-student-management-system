@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AuthService } from './services/auth.service';
 import { UserService } from 'src/users/services/users.service';
 import { AuthController } from './controllers/auth.controller';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './strategy/local.strategy';
 import { UsersModule } from 'src/users/users.module';
@@ -16,12 +16,12 @@ import { JwtStrategy } from './strategy/jwt.strategy';
     UsersModule,
     MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
     JwtModule.register({
-      secret: 'your-secret-key', // Make sure to replace this with your actual secret key
-      signOptions: { expiresIn: '1h' }, // Adjust the expiration time as needed
+      secret: 'your-secret-key',
+      signOptions: { expiresIn: '1h' },
     }),
   ],
   providers: [AuthService, LocalStrategy, UserService, JwtStrategy],
   controllers: [AuthController],
-  exports: [AuthService], // Export AuthService if you need to use it in other modules
+  exports: [AuthService],
 })
 export class AuthModule {}
