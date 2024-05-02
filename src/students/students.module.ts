@@ -5,8 +5,8 @@ import { StudentsService } from './services/students.service';
 import { StudentSchema } from './schemas/student.schema';
 import { StudentUpdateProcessor } from './processors/student-update.processor';
 import { BullModule, BullModuleOptions } from '@nestjs/bull';
-import { redisCacheConfig } from 'src/config';
-import { SocketModule } from 'src/socket/socket.module';
+import { redisCacheConfig } from '../config';
+import { SocketModule } from '../socket/socket.module';
 
 @Module({
   imports: [

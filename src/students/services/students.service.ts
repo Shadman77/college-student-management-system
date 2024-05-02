@@ -8,7 +8,7 @@ import { Model } from 'mongoose';
 import { Student } from '../interfaces/student.interface';
 import { CreateStudentDto } from '../dtos/create-student.dto';
 import { UpdateStudentDto } from '../dtos/update-student.dto';
-import { apiConfig } from 'src/config';
+import { apiConfig } from '../../config';
 import { SocketService } from '../../socket/services/socket.service';
 
 @Injectable()

@@ -12,9 +12,8 @@ import {
 import { StudentsService } from '../services/students.service';
 import { CreateStudentDto } from '../dtos/create-student.dto';
 import { UpdateStudentDto } from '../dtos/update-student.dto';
-import { LocalAuthGuard } from 'src/auth/guard/local.auth.guard';
-import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
-import { Role } from 'src/auth/decorators/role.decorator';
+import { JwtAuthGuard } from '../../auth/guard/jwt.guard';
+import { Role } from '../../auth/decorators/role.decorator';
 
 @Controller('students')
 export class StudentsController {

@@ -1,6 +1,6 @@
 import { Process, Processor } from '@nestjs/bull';
 import { StudentsService } from '../services/students.service';
-import { randomHobbyHelper } from 'src/helpers';
+import { randomHobbyHelper } from '../../helpers';
 
 @Processor('studentUpdate')
 export class StudentUpdateProcessor {
