@@ -27,6 +27,8 @@
     "@nestjs/mapped-types": "^2.0.5",
     "@nestjs/mongoose": "^10.0.6",
     "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/platform-socket.io": "^10.3.8",
+    "@nestjs/websockets": "^10.3.8",
     "bull": "^4.12.2",
     "cache-manager": "^5.5.2",
     "cache-manager-redis-store": "^2.0.0",
