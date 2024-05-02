@@ -19,12 +19,14 @@ export class SocketGateway implements OnModuleInit {
   onModuleInit() {
     this.server.on('connection', (socket) => {
       console.log(socket.id, 'connected');
+      socket.join('students');
+      console.log(socket.id, 'connected to room:', socket.rooms);
     });
   }
 
-  @SubscribeMessage('newMessage')
+  @SubscribeMessage('ping')
   onNewMessage(@MessageBody() body: any) {
     console.log(body);
-    this.server.emit('onMessage', 'hello');
+    this.server.emit('pong', '');
   }
 }

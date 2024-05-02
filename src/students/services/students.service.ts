@@ -103,7 +103,7 @@ export class StudentsService {
       })
       .exec();
 
-    this.socketService.emitToAll('student-updated', updatedStudent);
+    this.socketService.emitToRoom('students', 'student-updated', updatedStudent);
     return updatedStudent;
   }
 

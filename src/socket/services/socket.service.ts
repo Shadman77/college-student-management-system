@@ -6,8 +6,8 @@ import { SocketGateway } from '../socket';
 export class SocketService {
   constructor(private readonly socketGateway: SocketGateway) {}
 
-  emitToAll(eventName: string, eventData: any) {
-    const server: Server = this.socketGateway.server;
-    server.emit(eventName, eventData);
+  emitToRoom(roomName: string, eventName: string, eventData: any) {
+    const server = this.socketGateway.server;
+    server.to(roomName).emit(eventName, eventData);
   }
 }

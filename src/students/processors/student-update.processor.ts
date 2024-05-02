@@ -10,10 +10,6 @@ export class StudentUpdateProcessor {
   async handleUpdateJob(job: any) {
     const studentId = job.data.studentId;
     const hobby = randomHobbyHelper();
-    const updatedStudent = await this.studentsService.updateHobby(
-      studentId,
-      hobby,
-    );
-    console.log(updatedStudent);
+    await this.studentsService.updateHobby(studentId, hobby);
   }
 }
