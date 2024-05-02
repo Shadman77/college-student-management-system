@@ -9,10 +9,12 @@ import { Student } from '../interfaces/student.interface';
 import { CreateStudentDto } from '../dtos/create-student.dto';
 import { UpdateStudentDto } from '../dtos/update-student.dto';
 import { apiConfig } from 'src/config';
+import { SocketService } from '../../socket/services/socket.service';
 
 @Injectable()
 export class StudentsService {
   constructor(
+    private readonly socketService: SocketService,
     @InjectQueue('studentUpdate') private readonly studentUpdateQueue: Queue,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
     @InjectModel('Student') private readonly studentModel: Model<Student>,
@@ -101,6 +103,7 @@ export class StudentsService {
       })
       .exec();
 
+    this.socketService.emitToAll('onMessage', 'Hobby Update!');
     return updatedStudent;
   }
 

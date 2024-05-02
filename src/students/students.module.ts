@@ -6,6 +6,7 @@ import { StudentSchema } from './schemas/student.schema';
 import { StudentUpdateProcessor } from './processors/student-update.processor';
 import { BullModule, BullModuleOptions } from '@nestjs/bull';
 import { redisCacheConfig } from 'src/config';
+import { SocketModule } from 'src/socket/socket.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { redisCacheConfig } from 'src/config';
       },
     }),
     MongooseModule.forFeature([{ name: 'Student', schema: StudentSchema }]),
+    SocketModule
   ],
   controllers: [StudentsController],
   providers: [StudentUpdateProcessor, StudentsService],
