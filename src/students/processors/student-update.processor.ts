@@ -1,10 +1,19 @@
 import { Process, Processor } from '@nestjs/bull';
+import { StudentsService } from '../services/students.service';
+import { randomHobbyHelper } from 'src/helpers';
 
 @Processor('studentUpdate')
 export class StudentUpdateProcessor {
+  constructor(private readonly studentsService: StudentsService) {}
+
   @Process('update')
   async handleUpdateJob(job: any) {
-    console.log('Hello World');
-    console.log('Updated student ID:', job.data.studentId);
+    const studentId = job.data.studentId;
+    const hobby = randomHobbyHelper();
+    const updatedStudent = await this.studentsService.updateHobby(
+      studentId,
+      hobby,
+    );
+    console.log(updatedStudent);
   }
 }

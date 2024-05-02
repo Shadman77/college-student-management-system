@@ -92,6 +92,18 @@ export class StudentsService {
     return updatedStudent;
   }
 
+  async updateHobby(studentId: string, hobby: string): Promise<Student> {
+    const updateData = { hobby, updatedAt: new Date() };
+
+    const updatedStudent = await this.studentModel
+      .findOneAndUpdate({ studentId, isDeleted: false }, updateData, {
+        new: true,
+      })
+      .exec();
+
+    return updatedStudent;
+  }
+
   async delete(studentId: string): Promise<Student> {
     const updateData = { isDeleted: true, isDeletedAt: new Date() };
 
