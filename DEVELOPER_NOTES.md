@@ -5,4 +5,5 @@
 
 # PS
 
+* It is not possible to export socket collections in Postman.
 * Unfortunately I wasn't able to complete the last task because I needed to allocate time to my current work place.
