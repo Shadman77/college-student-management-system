@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { Server } from 'socket.io';
 import { SocketGateway } from '../socket';
 
 @Injectable()

@@ -36,7 +36,7 @@ export class StudentsService {
   async getTotalNumberOfStudents(): Promise<number> {
     return (
       (await this.cacheManager.get('totalNumberOfStudents')) ||
-      (await this.studentModel.countDocuments({ isDeleted: false }).exec())
+      (await this.studentModel.countDocuments({ isDeleted: false }))
     );
   }
 
@@ -44,7 +44,6 @@ export class StudentsService {
     const elementsPerPage = apiConfig.elementsPerPage;
     const totalNumberOfStudents = await this.studentModel
       .countDocuments({ isDeleted: false })
-      .exec();
     return Math.ceil(totalNumberOfStudents / elementsPerPage);
   }
 
@@ -60,13 +59,11 @@ export class StudentsService {
       .sort({ _id: -1 })
       .skip(skip)
       .limit(elementsPerPage)
-      .exec();
   }
 
   async findOne(studentId: string): Promise<Student | null> {
     const student = await this.studentModel
       .findOne({ studentId, isDeleted: false })
-      .exec();
     if (!student) {
       throw new NotFoundException(`Student with ID ${studentId} not found`);
     }
@@ -83,7 +80,6 @@ export class StudentsService {
       .findOneAndUpdate({ studentId, isDeleted: false }, updateData, {
         new: true,
       })
-      .exec();
 
     if (!updatedStudent) {
       throw new NotFoundException(`Student with ID ${studentId} not found`);
@@ -101,7 +97,6 @@ export class StudentsService {
       .findOneAndUpdate({ studentId, isDeleted: false }, updateData, {
         new: true,
       })
-      .exec();
 
     this.socketService.emitToRoom('students', 'student-updated', updatedStudent);
     return updatedStudent;
@@ -114,7 +109,6 @@ export class StudentsService {
       .findOneAndUpdate({ studentId, isDeleted: false }, updateData, {
         new: true,
       })
-      .exec();
 
     if (!deletedStudent) {
       throw new NotFoundException(`Student with ID ${studentId} not found`);
